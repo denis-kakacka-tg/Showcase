@@ -3,8 +3,8 @@ import RxSwift
 import Moya
 
 protocol CategoriesViewModelInputs {
-    var cellTapped: PublishSubject<EventCategoryModel> { get }
-    var closeTapped: PublishSubject<Void> { get }
+    var didTapCell: PublishSubject<EventCategoryModel> { get }
+    var didTapClose: PublishSubject<Void> { get }
 }
 
 protocol CategoriesViewModelOutputs {
@@ -22,35 +22,31 @@ struct CategoriesViewModel: CategoriesViewModelType {
     public var outputs: CategoriesViewModelOutputs { return self }
     
     // MARK: Inputs
-    let cellTapped = PublishSubject<EventCategoryModel>()
-    let closeTapped = PublishSubject<Void>()
+    let didTapCell = PublishSubject<EventCategoryModel>()
+    let didTapClose = PublishSubject<Void>()
     
     // MARK: Outputs
     let events: Observable<[EventCategoryModel]>
     let close: Observable<Void>
     
-    init(provider: MoyaProvider<EventRequests> = MoyaProvider<EventRequests>()) {
-        close = closeTapped // toto sa mi takto paci pretoze mozes ten event napr este nejak spracovat.. aj ked je to len tap, napr nastavit throttle
-        
-        //        events = Observable.just(Events.self)
-        //            .flatMapLatest { _ in provider.rx.request(EventRequests.suggest) }
-        //            .map(Embedded.self)
-        //            .map { $0.embedded }
-        
+    init() {
+        close = didTapClose 
         events = Observable.of(
             [EventCategoryModel(keyword: "Music"),
              EventCategoryModel(keyword: "Sport"),
+             EventCategoryModel(keyword: "Fun"),
+             EventCategoryModel(keyword: "Music"),
+             EventCategoryModel(keyword: "Sport"),
+             EventCategoryModel(keyword: "Fun"),
+             EventCategoryModel(keyword: "Music"),
+             EventCategoryModel(keyword: "Sport"),
+             EventCategoryModel(keyword: "Fun"),
+             EventCategoryModel(keyword: "Music"),
+             EventCategoryModel(keyword: "Sport"),
              EventCategoryModel(keyword: "Fun")
-//             EventCategoryModel(keyword: "Music"),
-//             EventCategoryModel(keyword: "Sport"),
-//             EventCategoryModel(keyword: "Fun"),
-//             EventCategoryModel(keyword: "Music"),
-//             EventCategoryModel(keyword: "Sport"),
-//             EventCategoryModel(keyword: "Fun")
             ]
         )
     }
 }
 
-extension CategoriesViewModel: CategoriesViewModelInputs, CategoriesViewModelOutputs {
-}
+extension CategoriesViewModel: CategoriesViewModelInputs, CategoriesViewModelOutputs {}

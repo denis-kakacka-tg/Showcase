@@ -1,31 +1,31 @@
 import UIKit
 
-enum Themes {
+enum Theme {
     case dark, light
     
     var tintColor: UIColor {
         switch self {
         case .dark:
-            return .lightBlue
+            return .showcaseBlue
         case .light:
-            return .darkBlue
+            return .showcaseDarkBlue
         }
     }
     
     var navBarColor: UIColor {
         switch self {
         case .dark:
-            return .darkBlue
+            return .showcaseDarkBlue
         case .light:
-            return .lightBlue
+            return .showcaseBlue
         }
     }
 }
 
 struct ThemeManager {
-    private(set) static var current: Themes = .light
+    private(set) static var current: Theme = .dark
     
-    static func apply(theme: Themes) {
+    static func apply(theme: Theme) {
         current = theme
         UIApplication.shared.delegate?.window??.tintColor = theme.tintColor
         UINavigationBar.appearance().barTintColor = theme.navBarColor
@@ -35,5 +35,8 @@ struct ThemeManager {
         ContainerView.appearance().backgroundColor = theme.navBarColor
         CustomButton.appearance().backgroundColor = theme.tintColor
         CustomButton.appearance().setTitleColor(theme.navBarColor, for: .normal)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().isTranslucent = true
     }
 }

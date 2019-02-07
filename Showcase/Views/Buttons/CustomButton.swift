@@ -1,21 +1,16 @@
-//
-//  CustomButton.swift
-//  Showcase
-//
-//  Created by Denis Kakačka on 02/02/2019.
-//  Copyright © 2019 Denis Kakačka. All rights reserved.
-//
-
 import UIKit
 
-class CustomButton: UIButton {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+final class CustomButton: UIButton {
+    
+    init(title: String) {
+        super.init(frame: .zero)
+        
+        setTitle(title, for: .normal)
+        layer.cornerRadius = 8
+        clipsToBounds = true
     }
-    */
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

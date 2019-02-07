@@ -1,0 +1,6 @@
+framework module Pods_ShowcaseTests {
+  umbrella header "Pods-ShowcaseTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

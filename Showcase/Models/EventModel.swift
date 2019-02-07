@@ -9,12 +9,16 @@ struct Embedded: Codable {
 }
 
 struct Events: Codable {
-    let venues: [VenueModel]
-    
+    var events: [EventModel]
 }
 
 struct EventModel: Codable {
     let name: String
+    let id: String
+}
+
+struct EventCategoryModel {
+    let keyword: String
 }
 
 

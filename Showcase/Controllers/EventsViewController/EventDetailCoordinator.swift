@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import Hero
 
 enum EventsCoordiantorResult {
     case event(EventModel)
@@ -15,13 +16,22 @@ final class EventsCoordinator: BaseCoordinator<EventsCoordiantorResult> {
     }
     
     override func start() -> Observable<EventsCoordiantorResult> {
-        let viewModel = EventDetailViewModel(model: model)
-        let viewController = EventDetailViewController(viewModel)
+        let viewModel = EventsViewModel(model: model)
+        let viewController = EventsViewController(viewModel)
         
-        (rootViewController as? UINavigationController)?
-            .pushViewController(viewController, animated: true)
+        // Sceny s coordinatorom su nazavisle na scenach, ktore ju prezentuju, mozme teda v pripade ze scena
+        // z ktorej to bolo prezentovane ma NavController tuto scenu pushnut, v pripade ze nie tak prezentovat
+        if let navigationController = rootViewController as? UINavigationController {
+            navigationController.hero.isEnabled = true
+            navigationController.pushViewController(viewController, animated: true)
+        } else {
+            viewController.hero.isEnabled = true
+            rootViewController.present(viewController, animated: true)
+        }
         
-        return viewModel.outputs.selectedEvent.map { EventsCoordiantorResult.event($0) }
+        // Cakame kym user selectne model, ked ho selectne posielame tento model coordinatoru predtym
+        return viewModel.outputs.selectedEvent
+            .map { EventsCoordiantorResult.event($0) }
             .do(onNext: { [weak self] _ in self?.rootViewController.dismiss(animated: true) })
     }
 }

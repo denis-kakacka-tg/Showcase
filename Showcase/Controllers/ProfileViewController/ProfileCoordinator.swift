@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import Hero
 
 final class ProfileCoordinator: BaseCoordinator<Void> {
     private let rootViewController: UIViewController
@@ -10,17 +11,34 @@ final class ProfileCoordinator: BaseCoordinator<Void> {
     
     override func start() -> Observable<Void> {
         let viewModel: ProfileViewModelType = ProfileViewModel()
-        let viewController = ProfileViewController(viewModel: viewModel)
+        let viewController = ProfileViewController(viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
+        
+        navigationController.hero.isEnabled = true
+        navigationController.hero.modalAnimationType = .fade
+            //.selectBy(presenting: .fade, dismissing: .slide(direction: .down))
         
         rootViewController.present(navigationController, animated: true, completion: nil)
         
-//        let profile = viewModel.outputs.profile.map { ProfileCoordinatorResult.profile($0) }
-//        let close = viewModel.outputs.close.map { ProfileCoordinatorResult.close }
+        viewModel.outputs.showSettings
+            .subscribe(onNext: { [weak self] _ in
+                self?.pushProfileSettings(on: navigationController)
+            })
+            .disposed(by: disposeBag)
         
-        return Observable.just(())
-//            Observable.merge(profile, close)
+        return viewModel.outputs.close
             .take(1)
-            .do(onNext: { [weak self] _ in self?.rootViewController.dismiss(animated: true) })
+            .do(onNext: { [weak self] _ in
+                self?.rootViewController.dismiss(animated: true)
+            })
+    }
+}
+
+extension ProfileCoordinator {
+    private func pushProfileSettings(on: UINavigationController) {
+        let viewModel = ProfileSettingsViewModel()
+        let viewController = ProfileSettingsViewController(viewModel: viewModel)
+        
+        on.pushViewController(viewController, animated: true)
     }
 }

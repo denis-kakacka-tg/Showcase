@@ -5,7 +5,11 @@ final class ProfileViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProfileViewModelType
     
-    init(viewModel: ProfileViewModelType) {
+    private var containerView: ProfileView {
+        return view as! ProfileView
+    }
+    
+    init(_ viewModel: ProfileViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -17,6 +21,10 @@ final class ProfileViewController: UIViewController {
 
 // MARK: - Lifecycle
 extension ProfileViewController {
+    override func loadView() {
+        view = ProfileView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +37,15 @@ extension ProfileViewController {
 extension ProfileViewController {
     private func setupRx() {
         // MARK: Inputs
+        let barButtonCustomView = containerView.closeBarBtn.customView as! UIButton
+        
+        barButtonCustomView.rx.tap
+            .bind(to: viewModel.inputs.didTapClose)
+            .disposed(by: disposeBag)
+        
+        containerView.settingsBtn.rx.tap
+            .bind(to: viewModel.inputs.didTapSettings)
+            .disposed(by: disposeBag)
         
         // MARK: Outputs
         
@@ -48,6 +65,6 @@ extension ProfileViewController {
 // MARK: - UI
 extension ProfileViewController {
     private func setupUI() {
-        
+        navigationItem.leftBarButtonItem = containerView.closeBarBtn
     }
 }

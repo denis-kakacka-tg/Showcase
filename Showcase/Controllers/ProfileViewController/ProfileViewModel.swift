@@ -2,13 +2,13 @@ import Foundation
 import RxSwift
 
 protocol ProfileViewModelInputs {
-    var profileTapped: PublishSubject<EventModel> { get }
-    var closeTapped: PublishSubject<Void> { get }
+    var didTapSettings: PublishSubject<Void> { get }
+    var didTapClose: PublishSubject<Void> { get }
 }
 
 protocol ProfileViewModelOutputs {
     var close: Observable<Void> { get }
-    var profile: Observable<EventModel> { get }
+    var showSettings: Observable<Void> { get }
 }
 
 protocol ProfileViewModelType {
@@ -21,19 +21,17 @@ struct ProfileViewModel: ProfileViewModelType {
     var outputs: ProfileViewModelOutputs { return self }
     
     // MARK: Inputs
-    let closeTapped = PublishSubject<Void>()
-    let profileTapped = PublishSubject<EventModel>()
+    let didTapClose = PublishSubject<Void>()
+    let didTapSettings = PublishSubject<Void>()
     
     // MARK: Outputs
     let close: Observable<Void>
-    let profile: Observable<EventModel>
+    let showSettings: Observable<Void>
     
     init() {
-        close = closeTapped
-        profile = profileTapped
+        close = didTapClose
+        showSettings = didTapSettings
     }
 }
 
-extension ProfileViewModel: ProfileViewModelInputs, ProfileViewModelOutputs {
-
-}
+extension ProfileViewModel: ProfileViewModelInputs, ProfileViewModelOutputs {}

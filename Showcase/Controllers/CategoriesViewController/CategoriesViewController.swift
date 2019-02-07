@@ -1,21 +1,16 @@
 import UIKit
 import RxSwift
-import RxCocoa
+import Hero
 
 final class CategoriesViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: CategoriesViewModelType
-    private let closeBtn = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: nil)
     
-    private lazy var collectionView: UICollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: self.view.frame.width, height: 44)
-        
-        return UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-    }()
+    private var containerView: CategoriesView {
+        return view as! CategoriesView
+    }
     
-    init(viewModel: CategoriesViewModelType) {
+    init(_ viewModel: CategoriesViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -27,11 +22,14 @@ final class CategoriesViewController: UIViewController {
 
 // MARK: - Lifecycle
 extension CategoriesViewController {
+    override func loadView() {
+        view = CategoriesView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        registerCells()
         setupRx()
     }
 }
@@ -39,15 +37,25 @@ extension CategoriesViewController {
 // MARK: - Rx
 extension CategoriesViewController {
     private func setupRx() {
+        // MARK: Inputs
+        let closeBarBtnCustomView = containerView.closeBarBtn.customView as! UIButton
+        
+        closeBarBtnCustomView.rx.tap
+            .bind(to: viewModel.inputs.didTapClose)
+            .disposed(by: disposeBag)
+        
+        containerView.collectionView.rx.modelSelected(EventCategoryModel.self)
+            .bind(to: viewModel.inputs.didTapCell)
+            .disposed(by: disposeBag)
+        
         // MARK: Outputs
         viewModel.outputs.events
-//            .map { $0 }
-            .bind(to: collectionView.rx.items(cellIdentifier: NSStringFromClass(EventCell.self), cellType: EventCell.self)) { _, model, cell in
-                cell.configure(with: model)
+            .asDriver(onErrorJustReturn: [])
+            .drive(containerView.collectionView.rx
+                .items(cellIdentifier: NSStringFromClass(EventCell.self), cellType: EventCell.self)) { index, model, cell in
+                    cell.configure(with: model)
+                    cell.hero.modifiers = [.fade, .scale(0.5)]
             }.disposed(by: disposeBag)
-        
-        closeBtn.rx.tap.bind(to: viewModel.inputs.closeTapped).disposed(by: disposeBag)
-        collectionView.rx.modelSelected(EventCategoryModel.self).bind(to: viewModel.inputs.cellTapped).disposed(by: disposeBag)
     }
 }
 
@@ -58,23 +66,13 @@ extension CategoriesViewController {
 
 // MARK: - Private
 extension CategoriesViewController {
-    private func registerCells() {
-        collectionView.register(EventCell.self, forCellWithReuseIdentifier: NSStringFromClass(EventCell.self))
-    }
+    
 }
 
 // MARK: - UI
 extension CategoriesViewController {
     private func setupUI() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(collectionView)
-        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        navigationItem.leftBarButtonItem = closeBtn
+        navigationItem.leftBarButtonItem = containerView.closeBarBtn
     }
 }
 

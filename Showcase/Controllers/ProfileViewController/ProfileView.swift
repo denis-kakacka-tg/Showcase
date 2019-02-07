@@ -1,21 +1,34 @@
-//
-//  ProfileView.swift
-//  Showcase
-//
-//  Created by Denis Kakačka on 06/02/2019.
-//  Copyright © 2019 Denis Kakačka. All rights reserved.
-//
-
 import UIKit
+import Hero
 
-class ProfileView: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+final class ProfileView: ContainerView {
+    let settingsBtn = CustomButton(title: "Settings")
+    
+    let closeBarBtn: UIBarButtonItem = {
+        let closeBtn = CustomButton(title: "X")
+        return UIBarButtonItem(customView: closeBtn)
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        settingsBtn.translatesAutoresizingMaskIntoConstraints = false
+        
+        addSubview(settingsBtn)
+        
+        NSLayoutConstraint.activate([
+            settingsBtn.centerYAnchor.constraint(equalTo: centerYAnchor),
+            settingsBtn.centerXAnchor.constraint(equalTo: centerXAnchor),
+            settingsBtn.widthAnchor.constraint(equalToConstant: 132),
+            
+            closeBarBtn.customView!.widthAnchor.constraint(equalToConstant: 32),
+            closeBarBtn.customView!.heightAnchor.constraint(equalToConstant: 32)
+            ])
+        
+        settingsBtn.hero.id = "profileButton"
+        closeBarBtn.customView!.hero.id = "showListButton"
     }
-    */
-
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

@@ -1,29 +1,24 @@
 import UIKit
 
-final class EmptyCollectionPlaceholder: UIView {
-    private let label = UILabel()
+final class EmptyCollectionPlaceholderView: UIView {
+    private let imageView = UIImageView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "empty")
+        
+        addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - UI
-extension EmptyCollectionPlaceholder {
-    private func setupUI() {
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(label)
-        label.text = "?"
-        
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            ])
     }
 }
