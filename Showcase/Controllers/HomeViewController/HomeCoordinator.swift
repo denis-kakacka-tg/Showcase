@@ -16,9 +16,7 @@ final class HomeCoordinator: BaseCoordinator<Void> {
         let viewModel: HomeViewModelType = HomeViewModel()
         let viewController = HomeViewController(viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
-        
-        navigationController.hero.isEnabled = true
-        
+                
         viewModel.outputs.showList
             .flatMap({ [weak self] _ -> Observable<CategoriesCoordinatorResult> in
                 guard let self = self else { return Observable.empty() }

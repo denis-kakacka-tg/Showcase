@@ -1,6 +1,5 @@
 import UIKit
 import RxSwift
-import Hero
 
 final class EventsViewController: UIViewController {
     private let disposeBag = DisposeBag()

@@ -1,6 +1,5 @@
 import UIKit
 import RxSwift
-import Hero
 
 enum EventsCoordiantorResult {
     case event(EventModel)
@@ -22,10 +21,8 @@ final class EventsCoordinator: BaseCoordinator<EventsCoordiantorResult> {
         // Sceny s coordinatorom su nazavisle na scenach, ktore ju prezentuju, mozme teda v pripade ze scena
         // z ktorej to bolo prezentovane ma NavController tuto scenu pushnut, v pripade ze nie tak prezentovat
         if let navigationController = rootViewController as? UINavigationController {
-            navigationController.hero.isEnabled = true
             navigationController.pushViewController(viewController, animated: true)
         } else {
-            viewController.hero.isEnabled = true
             rootViewController.present(viewController, animated: true)
         }
         

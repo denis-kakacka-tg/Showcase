@@ -23,9 +23,7 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
       
         // Hero framework pre transitions a animacie
         navigationController.hero.isEnabled = true
-        navigationController.hero.modalAnimationType = .fade//.selectBy(presenting: .fade,
-//                                                                 dismissing: .slide(direction: .down))
-        
+        navigationController.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .slide(direction: .right))
         rootViewController.present(navigationController, animated: true, completion: nil)
 
         let selectedModel = viewModel.inputs.didTapCell
