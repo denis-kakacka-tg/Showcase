@@ -2,7 +2,7 @@
 
 Example of architecture using RxSwift, MVVM and Coordinators
 
-![](video1.gif) ![](video2.gif)
+![](video1.gif)       ![](video2.gif)
 
 ## Build with
 * [RxSwift](https://github.com/ReactiveX/RxSwift) - Reactive framework
