@@ -34,10 +34,6 @@ struct HomeViewModel: HomeViewModelType {
         
     init() {
         var allFavs: Events = Events(events: [])
-        
-        // chytime input signal 'didTapShowList<Void>' a preposleme ho outputu, v tomto pripade nerobime ziadne
-        // upravy takze to len preposleme v inych pripadoch mozme na 'didTapShowList' napr pouzit .map{}
-        // alebo nastavatit throttle
         showList = didTapShowList
         showProfile = didTapShowProfile
         favorites = didAddFavorite

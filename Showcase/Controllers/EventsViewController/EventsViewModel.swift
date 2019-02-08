@@ -26,12 +26,7 @@ struct EventsViewModel: EventsViewModelType {
     // MARK: Outputs
     let events: Observable<Events>
     let selectedEvent: Observable<EventModel>
-    
-    /// Inicializacia
-    ///
-    /// - Parameters:
-    ///   - model: Zoberieme model z tapnutej celly a naplnime pom. neho request
-    ///   - provider: Moya provider, pom ktoreho vypalime request, pri testoch si tu mozme poslat nas mockovaci provider
+
     init(model: EventCategoryModel, provider: MoyaProvider<EventRequests> = MoyaProvider<EventRequests>()) {
         selectedEvent = didSelectEvent
         

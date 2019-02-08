@@ -1,15 +1,10 @@
 import UIKit
 import RxSwift
 
-// v projekte je Schema.jpg kde si mozte pozret jak to cele vypada
-// Behavior driven testy dorobim ked bude cas 
-
 final class HomeViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: HomeViewModelType
     
-    // Pomocou tohto sa zbavime zodpovednosti, pridavania views/buttonov a nastavovania ich constraints, pretoze
-    // to nie je zodpovednost controllera
     private var containerView: HomeView {
         return view as! HomeView
     }

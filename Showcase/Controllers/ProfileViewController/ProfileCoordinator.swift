@@ -16,7 +16,6 @@ final class ProfileCoordinator: BaseCoordinator<Void> {
         
         navigationController.hero.isEnabled = true
         navigationController.hero.modalAnimationType = .fade
-            //.selectBy(presenting: .fade, dismissing: .slide(direction: .down))
         
         rootViewController.present(navigationController, animated: true, completion: nil)
         

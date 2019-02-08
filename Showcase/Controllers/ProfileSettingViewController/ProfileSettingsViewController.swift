@@ -77,7 +77,6 @@ extension Reactive where Base: ProfileSettingsViewController {
     fileprivate var theme: Binder<Theme> {
         return Binder(base, binding: { (view, theme) in
             ThemeManager.apply(theme: theme)
-            // na scene kde prestavujeme temu to potrebujeme este nastavit takto aby sme videli zmeny okamzite, pretoze appeareance to nezmeni
             view.navigationController?.navigationBar.barTintColor = theme.navBarColor
             view.containerView.set(with: theme)
         })

@@ -8,7 +8,6 @@ enum CategoriesCoordinatorResult {
 }
 
 final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> {
-    // Toto je root controller daneho coordinatoru, nie celej APP 
     private let rootViewController: UIViewController
     
     init(rootViewController: UIViewController) {
@@ -20,8 +19,6 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
         let viewController = CategoriesViewController(viewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         
-      
-        // Hero framework pre transitions a animacie
         navigationController.hero.isEnabled = true
         navigationController.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .slide(direction: .right))
         rootViewController.present(navigationController, animated: true, completion: nil)
@@ -36,8 +33,6 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
         let close = viewModel.outputs.close
             .map { CategoriesCoordinatorResult.close }
         
-        // Cakame dokym jedna z observables emituje nejaky event, nasledne returnujeme a coordinator sa vyhodi z pamate
-        // vid. ako funguje 'BaseCoordinator'
         return Observable.merge(close, selectedModel)
             .take(1)
             .do(onNext: { [weak self] _ in self?.rootViewController.dismiss(animated: true) })
@@ -46,16 +41,8 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
 
 // MARK: - Private
 extension CategoriesCoordinator {
-    /// Prezentujeme scenu
-    ///
-    /// - Parameters:
-    ///   - on: Controller na ktorom bude prezentovana dalsia scena
-    ///   - model: Model, ktorym danu scenu nastavime
-    /// - Returns: Vraciame selektnuty model v dalsej scene
     private func pushEvents(on: UIViewController, with model: EventCategoryModel) -> Observable<EventModel> {
         let eventsCoordinator = EventsCoordinator(rootViewController: on, with: model)
-        // 'EventsCoordinator' vracia enum 'EventsCoordiantorResult' ale tato funckcia nam uz vracia konkretny model
-        // takze si z enumu vytiahneme nas model a vratime ho
         return coordinate(to: eventsCoordinator)
             .map({ (result) in
                 switch result {

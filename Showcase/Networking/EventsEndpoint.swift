@@ -1,8 +1,6 @@
 import Foundation
 import Moya
 
-// Moya ppci framework pre abstrakciu network layeru, precitajte si viac o nom na Githube
-
 enum EventRequests {
     case suggest
     case eventsFor(keyword: String)
