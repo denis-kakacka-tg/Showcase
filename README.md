@@ -5,7 +5,7 @@ Example of architecture using RxSwift, MVVM and Coordinators
 ![](video1.gif)       ![](video2.gif)
 
 ## Scheme
-![](Scheme.jpg)
+![](Scheme.png)
 
 ## Build with
 * [RxSwift](https://github.com/ReactiveX/RxSwift) - Reactive framework
