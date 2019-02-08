@@ -8,7 +8,6 @@ final class HomeCoordinator: BaseCoordinator<Void> {
         self.window = window
     }
     
-    
     /// Tato metodka sa vzdy vola ako prva, vlastne nainicializuje controller ktory sa zobrazi
     /// a pocuva na eventy, ktore posiela viewmodel
     /// - Returns: Vacsinou vracia 'Void' ale su situacie kedy chceme poslat informaciu z jedneho coordinatoru do coordinatoru ktory ho prezentoval, vid priklad 'showCategories' kde sa prezentuje dalsi coordinator a z neho este jeden a pom. nich sa dostanu data az do tejto sceny
