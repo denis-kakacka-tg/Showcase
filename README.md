@@ -4,6 +4,9 @@ Example of architecture using RxSwift, MVVM and Coordinators
 
 ![](video1.gif)       ![](video2.gif)
 
+## Scheme
+![](Scheme.jpg)
+
 ## Build with
 * [RxSwift](https://github.com/ReactiveX/RxSwift) - Reactive framework
 * [Moya](https://github.com/Moya/Moya) - Network abstraction layer
