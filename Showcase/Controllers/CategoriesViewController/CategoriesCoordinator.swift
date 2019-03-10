@@ -4,7 +4,7 @@ import Hero
 
 enum CategoriesCoordinatorResult {
     case close
-    case event(EventModel)
+    case joke(JokeModel)
 }
 
 final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> {
@@ -23,17 +23,17 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
         navigationController.hero.modalAnimationType = .selectBy(presenting: .fade, dismissing: .slide(direction: .right))
         rootViewController.present(navigationController, animated: true, completion: nil)
 
-        let selectedModel = viewModel.inputs.didTapCell
-            .flatMap { [weak self] (model) -> Observable<EventModel> in
+        let selectedCategory = viewModel.outputs.showSelectedCategory
+            .flatMap { [weak self] (category) -> Observable<JokeModel> in
                 guard let self = self else { return Observable.empty() }
-                return self.pushEvents(on: navigationController, with: model)
+                return self.showJokes(in: category, on: navigationController)
             }
-            .map { CategoriesCoordinatorResult.event($0) }
+            .map { CategoriesCoordinatorResult.joke($0) }
         
         let close = viewModel.outputs.close
             .map { CategoriesCoordinatorResult.close }
         
-        return Observable.merge(close, selectedModel)
+        return Observable.merge(close, selectedCategory)
             .take(1)
             .do(onNext: { [weak self] _ in self?.rootViewController.dismiss(animated: true) })
     }
@@ -41,13 +41,13 @@ final class CategoriesCoordinator: BaseCoordinator<CategoriesCoordinatorResult> 
 
 // MARK: - Private
 extension CategoriesCoordinator {
-    private func pushEvents(on: UIViewController, with model: EventCategoryModel) -> Observable<EventModel> {
-        let eventsCoordinator = EventsCoordinator(rootViewController: on, with: model)
-        return coordinate(to: eventsCoordinator)
+    private func showJokes(in category: Category, on: UIViewController) -> Observable<JokeModel> {
+        let jokeCoordinator = JokeCoordinator(rootViewController: on, with: category)
+        return coordinate(to: jokeCoordinator)
             .map({ (result) in
                 switch result {
-                case .event(let eventModel):
-                    return eventModel
+                case .joke(let jokeModel):
+                    return jokeModel
                 }
         })
     }

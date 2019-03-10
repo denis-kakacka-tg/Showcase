@@ -18,20 +18,22 @@ final class HomeCoordinator: BaseCoordinator<Void> {
                 guard let self = self else { return Observable.empty() }
                 return self.showCategories(on: navigationController)
             })
-            .map { (result) -> EventModel? in
-                switch result {
-                case .event(let event): return event
-                case .close: return nil
-            }}
-            .filter { $0 != nil }
-            .map { $0! }
-            .bind(to: viewModel.inputs.didAddFavorite)
+            .subscribe()
             .disposed(by: disposeBag)
+//            .map { (result) -> EventModel? in
+//                switch result {
+//                case .event(let event): return event
+//                case .close: return nil
+//            }}
+//            .filter { $0 != nil }
+//            .map { $0! }
+//            .bind(to: viewModel.inputs.didAddFavorite)
+//            .disposed(by: disposeBag)
         
         viewModel.outputs.showProfile
             .flatMap({ [weak self] _ -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                return self.showProfile(on: viewController)
+                return self.showProfile(on: navigationController)
             })
             .subscribe()
             .disposed(by: disposeBag)

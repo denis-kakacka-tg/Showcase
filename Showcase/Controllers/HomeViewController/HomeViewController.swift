@@ -49,18 +49,18 @@ extension HomeViewController {
             .disposed(by: disposeBag)
         
         // MARK: Outputs
-        viewModel.outputs.favorites
-            .map { $0.events }
-            .asDriver(onErrorJustReturn: [])
-            .startWith([])
-            .do(onNext: { [weak self] (events) in
-                self?.handleCollection(empty: events.isEmpty)
-            })
-            .drive(containerView.collectionView.rx
-                .items(cellIdentifier: NSStringFromClass(EventCell.self), cellType: EventCell.self)) { _, model, cell in
-                    cell.configure(with: model)
-            }
-            .disposed(by: disposeBag)
+//        viewModel.outputs.favorites
+//            .map { $0.events }
+//            .asDriver(onErrorJustReturn: [])
+//            .startWith([])
+//            .do(onNext: { [weak self] (events) in
+//                self?.handleCollection(empty: events.isEmpty)
+//            })
+//            .drive(containerView.collectionView.rx
+//                .items(cellIdentifier: NSStringFromClass(), cellType: )) { _, model, cell in
+//                    cell.configure(with: model)
+//            }
+//            .disposed(by: disposeBag)
     }
 }
 

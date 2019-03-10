@@ -44,12 +44,12 @@ extension CategoriesViewController {
             .bind(to: viewModel.inputs.didTapClose)
             .disposed(by: disposeBag)
         
-        containerView.collectionView.rx.modelSelected(EventCategoryModel.self)
-            .bind(to: viewModel.inputs.didTapCell)
+        containerView.collectionView.rx.modelSelected(Category.self)
+            .bind(to: viewModel.inputs.didTapCategory)
             .disposed(by: disposeBag)
         
         // MARK: Outputs
-        viewModel.outputs.events
+        viewModel.outputs.categories
             .asDriver(onErrorJustReturn: [])
             .drive(containerView.collectionView.rx
                 .items(cellIdentifier: NSStringFromClass(EventCell.self), cellType: EventCell.self)) { index, model, cell in
@@ -75,4 +75,3 @@ extension CategoriesViewController {
         navigationItem.leftBarButtonItem = containerView.closeBarBtn
     }
 }
-

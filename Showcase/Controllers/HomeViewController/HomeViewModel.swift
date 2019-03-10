@@ -4,13 +4,13 @@ import RxSwift
 protocol HomeViewModelInputs {
     var didTapShowList: PublishSubject<Void> { get }
     var didTapShowProfile: PublishSubject<Void> { get }
-    var didAddFavorite: PublishSubject<EventModel> { get }
+//    var didAddFavorite: PublishSubject<EventModel> { get }
 }
 
 protocol HomeViewModelOutputs {
     var showList: Observable<Void> { get }
     var showProfile: Observable<Void> { get }
-    var favorites: Observable<Events> { get }
+//    var favorites: Observable<Events> { get }
 }
 
 protocol HomeViewModelType {
@@ -25,22 +25,22 @@ struct HomeViewModel: HomeViewModelType {
     // MARK: Inputs
     let didTapShowList = PublishSubject<Void>()
     let didTapShowProfile = PublishSubject<Void>()
-    let didAddFavorite = PublishSubject<EventModel>()
+//    let didAddFavorite = PublishSubject<EventModel>()
     
     // MARK: Outputs
     let showList: Observable<Void>
     let showProfile: Observable<Void>
-    let favorites: Observable<Events>
-        
+//    let favorites: Observable<Events>
+    
     init() {
-        var allFavs: Events = Events(events: [])
+//        var allFavs: Events = Events(events: [])
         showList = didTapShowList
         showProfile = didTapShowProfile
-        favorites = didAddFavorite
-            .flatMap({ (model) -> Observable<Events> in
-                allFavs.events.append(model)
-                return Observable.from(optional: allFavs)
-            })
+//        favorites = didAddFavorite
+//            .flatMap({ (model) -> Observable<Events> in
+//                allFavs.events.append(model)
+//                return Observable.from(optional: allFavs)
+//            })
     }
 }
 

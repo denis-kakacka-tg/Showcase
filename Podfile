@@ -8,6 +8,7 @@ target 'Showcase' do
   # Pods for Showcase
   pod 'RxSwift',    '~> 4.0'
   pod 'RxCocoa',    '~> 4.0'
+  pod 'RxDataSources', '~> 3.0'
   pod 'Moya/RxSwift', '~> 12.0'
   pod 'Hero'
 

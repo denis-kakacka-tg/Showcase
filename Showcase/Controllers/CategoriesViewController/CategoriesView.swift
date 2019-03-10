@@ -24,7 +24,7 @@ final class CategoriesView: ContainerView {
             closeBarBtn.customView!.widthAnchor.constraint(equalToConstant: 32),
             closeBarBtn.customView!.heightAnchor.constraint(equalToConstant: 32),
             
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 64),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -52,8 +52,8 @@ extension CategoriesView {
 // MARK: - Private
 extension CategoriesView {
     private func setCollectionLayout() {
-        collectionLayout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
-        let collectionWidthWithoutInsets = collectionView.bounds.width - 20
+        collectionLayout.sectionInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        let collectionWidthWithoutInsets = collectionView.bounds.width - 24
         collectionLayout.itemSize = CGSize(width: collectionWidthWithoutInsets * 0.3, height: 80)
     }
 }

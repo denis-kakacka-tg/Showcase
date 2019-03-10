@@ -7,13 +7,18 @@ final class EventCell: UICollectionViewCell {
         super.init(frame: frame)
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
+        label.textAlignment = .center
         
         addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.centerXAnchor.constraint(equalTo: centerXAnchor)
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            label.topAnchor.constraint(equalTo: topAnchor, constant: 4),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
             ])
       
     }
@@ -25,15 +30,16 @@ final class EventCell: UICollectionViewCell {
 
 // MARK: - Public
 extension EventCell {
-    func configure(with category: EventCategoryModel) {
-        label.text = category.keyword
+    func configure(with category: Category) {
+        label.text = category
+        label.numberOfLines = 1
         layer.cornerRadius = 8
         clipsToBounds = true
         label.textColor = ThemeManager.current.navBarColor
     }
     
-    func configure(with event: EventModel) {
-        label.text = event.name
+    func configure(with joke: JokeModel) {
+        label.text = joke.value
         layer.cornerRadius = 0
         clipsToBounds = false
         backgroundColor = ThemeManager.current.navBarColor
